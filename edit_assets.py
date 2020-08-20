@@ -410,8 +410,7 @@ def assets_delete_approve():
 		driver.close()
 		driver.quit()
 	except Exception as e:
-		logger_login.debug("Failed to connect internet: %s" %e)
-		print("Failed to connect internet: %s" %e)
+		logger_login.error("Failed to connect internet: %s" %e)
 		driver.close()
 		driver.quit()
 
