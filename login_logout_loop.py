@@ -45,7 +45,7 @@ def signin():
 			password = driver.find_element_by_xpath('//*[@id="password"]')
 			password.clear()
 			password.send_keys(config('password'))
-			login= driver.find_element_by_xpath('//*[@id="root"]/div[2]/div/div/form/div[3]/button')
+			login= driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/div/form/div[3]/button')
 			login.click()
 			time.sleep(2)
 			logger_login.info("login successfully")
