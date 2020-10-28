@@ -27,14 +27,13 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 logger_login= logging.getLogger('login.py')
 logger_logout= logging.getLogger('logout.py')
+import pytest
 
-
-
-def signin():
+def test_signin():
 	try:
 		URL_PATH = config('URL')
-		#driver= webdriver.Chrome(chrome_options=chrome_options)
-		driver= webdriver.Chrome()
+		driver= webdriver.Chrome(chrome_options=chrome_options)
+		#driver= webdriver.Chrome()
 		driver.implicitly_wait(5)
 		driver.set_window_size(1524, 1024)
 		actions = ActionChains(driver)
@@ -167,14 +166,10 @@ def signin():
 		assign_to.send_keys(Keys.ENTER)
 		logger_login.info("Assign task to user selected")
 		time.sleep(2)
-		#//*[@id="root"]/div[3]/div/div/div[2]/div/div[3]/div/div/div/button
 		driver.find_element_by_xpath('//*[@id="root"]/div[3]/div/div/div[2]/div/div[3]/div/div/div/button').click()
 		time.sleep(2)
-		# /html/body/div[6]/div[3]/div/div/div[2]/div/div[5]/div[3]
-		driver.find_element_by_xpath('/html/body/div[6]/div[3]/div/div/div[2]/div/div[5]/div[3]')
-		#/html/body/div[6]/div[3]/div/div/div[2]/div/div[5]/div[3]/button
-		driver.find_element_by_xpath('/html/body/div[6]/div[3]/div/div/div[2]/div/div[5]/div[3]/button')
-		wait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, "//p[text()='27']"))).click()
+		add_date=driver.find_element_by_xpath('//*[@id="root"]/div[3]/div/div/div[2]/div/div[3]/div/div/div/button')
+		wait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, "//p[text()='26']"))).click()
 		logger_login.info("Date selected")
 		time.sleep(2)
 		description = driver.find_element_by_xpath('//*[@id="description"]')
@@ -256,4 +251,4 @@ def signin():
 		driver.quit()
 
 if __name__ == '__main__':
-    signin()
+    test_signin()
