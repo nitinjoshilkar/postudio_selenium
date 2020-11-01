@@ -10,6 +10,9 @@ import logging
 import time
 #import pyautogui
 from selenium.webdriver.chrome.options import Options
+import requests
+import json
+
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
@@ -33,8 +36,8 @@ logger_logout= logging.getLogger('logout.py')
 def signin():
 	try:
 		URL_PATH = config('URL')
-		#driver= webdriver.Chrome(chrome_options=chrome_options)
-		driver= webdriver.Chrome()
+		driver= webdriver.Chrome(chrome_options=chrome_options)
+		#driver= webdriver.Chrome()
 		driver.implicitly_wait(5)
 		driver.set_window_size(1524, 1024)
 		actions = ActionChains(driver)
@@ -167,14 +170,11 @@ def signin():
 		assign_to.send_keys(Keys.ENTER)
 		logger_login.info("Assign task to user selected")
 		time.sleep(2)
-		#//*[@id="root"]/div[3]/div/div/div[2]/div/div[3]/div/div/div/button
 		driver.find_element_by_xpath('//*[@id="root"]/div[3]/div/div/div[2]/div/div[3]/div/div/div/button').click()
 		time.sleep(2)
-		# /html/body/div[6]/div[3]/div/div/div[2]/div/div[5]/div[3]
 		driver.find_element_by_xpath('/html/body/div[6]/div[3]/div/div/div[2]/div/div[5]/div[3]')
-		#/html/body/div[6]/div[3]/div/div/div[2]/div/div[5]/div[3]/button
-		driver.find_element_by_xpath('/html/body/div[6]/div[3]/div/div/div[2]/div/div[5]/div[3]/button')
-		wait(driver, 1).until(EC.element_to_be_clickable((By.XPATH, "//p[text()='27']"))).click()
+		button=driver.find_element_by_xpath('/html/body/div[6]/div[3]/div/div/div[2]/div/div[5]/div[3]/button')
+		button.send_keys(Keys.ENTER)
 		logger_login.info("Date selected")
 		time.sleep(2)
 		description = driver.find_element_by_xpath('//*[@id="description"]')
@@ -219,6 +219,31 @@ def signin():
 		logger_login.info("first storyborad opened successfully")
 		time.sleep(3)
 
+		''' delete collaborators '''
+		logger_login.info("collaborators deletion process started")
+		login_url= 'http://api.stg.auth.postud.io/login/'
+		login_data= {"username":"sukant@desynova.com","password":"dyn@sukant20"}
+		payload=json.dumps(login_data).encode('ascii')
+		login_response= requests.request('POST',login_url,data=payload)
+		login_response_in_json=json.loads(login_response.text)
+
+		delete_collaboarator_url= 'http://api.stg.sbs.postud.io/storyboard/collaborators/'
+		collaborators_data= {"storyboard_db_id":"5f903e06473bb1400102038a","role":"collaborator","user_email":"nitinjoshilkar2@gmail.com"}
+		payload=json.dumps(collaborators_data).encode('ascii')
+		headers={ 
+		       'Accept': 'application/json, text/plain, */*',
+		       'Authorization': f"Bearer {login_response_in_json['data']['token']}",
+		       'API-Type': 'WEB',
+		       'API-Version': '1.0',
+		       }
+		collaborator_response= requests.request('DELETE',delete_collaboarator_url,data=payload,headers=headers)
+		collaborator_response_in_json=json.loads(collaborator_response.text)
+		collaborators_data= {"storyboard_db_id":"5f903e06473bb1400102038a","role":"collaborator","user_email":"sachin45@gmail.com"}
+		payload=json.dumps(collaborators_data).encode('ascii')
+		collaborator_response= requests.request('DELETE',delete_collaboarator_url,data=payload,headers=headers)
+		collaborator_response_in_json=json.loads(collaborator_response.text)
+		logger_login.info("collaborators deleted successfully")
+
 		''' delete first storyboard '''
 		logger_login.info("storyboard deletion process started")
 		driver.find_element_by_xpath('//*[@id="root"]/div[1]/div/div[2]/div/div[2]/div/div[2]/div[2]/div/button').click()
@@ -246,12 +271,11 @@ def signin():
 		time.sleep(2)
 		logger_login.info('logout successfully')
 		
-		
 		''' close browser '''
 		driver.close()
 		driver.quit()
 	except Exception as e:
-		logger_login.error("Failed to connect internet: %s" %e)
+		logger_login.error("Error in testcase first: %s" %e)
 		driver.close()
 		driver.quit()
 
