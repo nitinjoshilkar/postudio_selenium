@@ -17,8 +17,8 @@ chrome_options = Options()
 chrome_options.add_argument("--headless")
 #chrome_options.add_argument("--window-size=1920x1080")
 
-logging.basicConfig(level=logging.DEBUG
-                    format='%(asctime) %(name)-12s %(levelname)-8s %(message)s',
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M',
                     ) 
 console = logging.StreamHandler()
@@ -39,7 +39,7 @@ def signin():
 		driver= webdriver.Chrome()
 		driver.implicitly_wait(5)
 		driver.set_window_size(1524, 1024)
-                actions = ActionChains(driver)
+		actions = ActionChains(driver)
 		driver.get(URL_PATH)
 		logger_login.info("Connection created successfully")
 		time.sleep(1)
