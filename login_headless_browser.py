@@ -21,7 +21,7 @@ logging.basicConfig(level=logging.DEBUG,
 					filename="postudio.log",
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M',
-                    filemode='a+'
+
                     ) 
 console = logging.StreamHandler()
 console.setLevel(logging.INFO)
