@@ -18,7 +18,6 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1920x1080")
 
 logging.basicConfig(level=logging.DEBUG,
-					filename="postudio.log",
                     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
                     datefmt='%m-%d %H:%M',
 
