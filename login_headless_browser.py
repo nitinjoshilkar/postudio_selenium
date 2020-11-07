@@ -35,8 +35,8 @@ logger_logout= logging.getLogger('logout.py')
 def signin():
 	try:
 		URL_PATH = config('URL')
-		#driver= webdriver.Chrome(chrome_options=chrome_options)
-		driver= webdriver.Chrome()
+		driver= webdriver.Chrome(chrome_options=chrome_options)
+		#driver= webdriver.Chrome()
 		driver.implicitly_wait(5)
 		driver.set_window_size(1524, 1024)
 		actions = ActionChains(driver)
