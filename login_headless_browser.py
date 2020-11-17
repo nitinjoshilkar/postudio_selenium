@@ -43,7 +43,7 @@ def signin():
 		driver.set_window_size(1524, 1024)
 		actions = ActionChains(driver)
 		driver.get(URL_PATH)
-		logger_login.info("Connection created successfully")
+		#logger_login.info("Connection created successfully")
 		time.sleep(1)
 		username = driver.find_element_by_xpath('//*[@id="email"]')
 		username.clear()
