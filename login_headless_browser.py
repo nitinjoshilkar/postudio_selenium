@@ -231,12 +231,12 @@ def signin():
 		delete_collaboarator_url= 'http://api.stg.sbs.postud.io/storyboard/collaborators/'
 		collaborators_data= {"storyboard_db_id":"5f903e06473bb1400102038a","role":"collaborator","user_email":"nitinjoshilkar2@gmail.com"}
 		payload=json.dumps(collaborators_data).encode('ascii')
-		#headers={ 
-		#       'Accept': 'application/json, text/plain, */*',
-		#       'Authorization': f"Bearer {login_response_in_json['data']['token']}",
-		#       'API-Type': 'WEB',
-		#       'API-Version': '1.0',
-		#       }
+		headers={ 
+		       'Accept': 'application/json, text/plain, */*',
+		       'Authorization': f"Bearer {login_response_in_json['data']['token']}",
+		       'API-Type': 'WEB',
+		       'API-Version': '1.0',
+		       }
 		collaborator_response= requests.request('DELETE',delete_collaboarator_url,data=payload,headers=headers)
 		collaborator_response_in_json=json.loads(collaborator_response.text)
 		collaborators_data= {"storyboard_db_id":"5f903e06473bb1400102038a","role":"collaborator","user_email":"sachin45@gmail.com"}
